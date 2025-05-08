@@ -10,6 +10,7 @@ import { verifyImage as apiVerifyImage } from '../services/api';
 interface ImageVerifierProps {
   imageData: string | null;
   metadata: ImageMetadata | null;
+  proofFile?: File | null;
 }
 
 interface VerificationStatus {
@@ -20,7 +21,7 @@ interface VerificationStatus {
   errorDetails?: string;
 }
 
-const ImageVerifier = ({ imageData, metadata }: ImageVerifierProps) => {
+const ImageVerifier = ({ imageData, metadata, proofFile }: ImageVerifierProps) => {
   const [verification, setVerification] = useState<VerificationStatus>({ status: 'idle' });
   const [logs, setLogs] = useState<string[]>([]);
 
@@ -47,9 +48,14 @@ const ImageVerifier = ({ imageData, metadata }: ImageVerifierProps) => {
       addLog(`Starting verification process with metadata: ${JSON.stringify(metadata)}`);
       addLog(`Image data length: ${imageData.length} characters`);
 
+      // Check if proof file is provided
+      if (proofFile) {
+        addLog(`Using provided proof file: ${proofFile.name}`);
+      }
+
       // Use the API service instead of local verification
       addLog('Sending verification request to server...');
-      const result = await apiVerifyImage(imageData, metadata);
+      const result = await apiVerifyImage(imageData, metadata, proofFile);
       addLog(`Received server response: ${JSON.stringify(result)}`);
       
       if (result.success) {

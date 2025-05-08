@@ -22,7 +22,11 @@ interface CryptoMetadata extends ImageMetadata {
 /**
  * Sends an image and metadata to the backend for verification
  */
-export async function verifyImage(imageData: string, metadata: ImageMetadata): Promise<{
+export async function verifyImage(
+  imageData: string, 
+  metadata: ImageMetadata, 
+  proofFile?: File | null
+): Promise<{
   success: boolean;
   attestationHash?: string;
   message: string;
@@ -35,13 +39,21 @@ export async function verifyImage(imageData: string, metadata: ImageMetadata): P
     const blob = await base64Response.blob();
     const file = new File([blob], 'captured_image.jpg', { type: 'image/jpeg' });
 
-    // Create a crypto-enhanced version of the metadata
-    const cryptoMetadata: CryptoMetadata = await generateCryptoMetadata(imageData, metadata);
-    
     // Create form data
     const formData = new FormData();
     formData.append('image', file);
-    formData.append('metadata', JSON.stringify(cryptoMetadata));
+
+    // If proof file is provided, use it instead of generating new crypto metadata
+    if (proofFile) {
+      console.log('Using provided proof file');
+      formData.append('proof', proofFile);
+      formData.append('metadata', JSON.stringify(metadata));
+    } else {
+      // Create a crypto-enhanced version of the metadata
+      console.log('Generating new crypto metadata');
+      const cryptoMetadata: CryptoMetadata = await generateCryptoMetadata(imageData, metadata);
+      formData.append('metadata', JSON.stringify(cryptoMetadata));
+    }
 
     console.log('Sending verification request to server...');
     

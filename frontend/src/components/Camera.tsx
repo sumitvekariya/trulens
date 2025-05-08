@@ -1,5 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
+import { IoFlash, IoFlashOutline, IoCameraReverse } from 'react-icons/io5';
+import { MdOutlineGpsFixed } from 'react-icons/md';
 
 interface CameraProps {
   onCapture: (imageData: string, metadata: ImageMetadata) => void;
@@ -17,24 +19,72 @@ const Camera = ({ onCapture }: CameraProps) => {
   const webcamRef = useRef<Webcam>(null);
   const [isGpsEnabled, setIsGpsEnabled] = useState(false);
   const [gpsPosition, setGpsPosition] = useState<GeolocationPosition | null>(null);
+  const [facingMode, setFacingMode] = useState<"user" | "environment">("environment");
+  const [flashMode, setFlashMode] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
+  const gpsWatchIdRef = useRef<number | null>(null);
 
-  // Set up geolocation tracking when GPS is enabled
-  const toggleGps = () => {
-    const newState = !isGpsEnabled;
-    setIsGpsEnabled(newState);
-    
-    if (newState) {
+  // Set up GPS watching effect
+  useEffect(() => {
+    if (isGpsEnabled) {
+      // Start watching position when GPS is enabled
       if (navigator.geolocation) {
+        // Get initial position
         navigator.geolocation.getCurrentPosition(
           (position) => setGpsPosition(position),
           (error) => console.error('Error getting location:', error)
         );
+        
+        // Set up continuous watching
+        const watchId = navigator.geolocation.watchPosition(
+          (position) => setGpsPosition(position),
+          (error) => console.error('Error watching location:', error),
+          { enableHighAccuracy: true }
+        );
+        
+        gpsWatchIdRef.current = watchId;
       } else {
         console.error('Geolocation is not supported by this browser.');
         setIsGpsEnabled(false);
       }
     } else {
+      // Clear position watching when GPS is disabled
+      if (gpsWatchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(gpsWatchIdRef.current);
+        gpsWatchIdRef.current = null;
+      }
       setGpsPosition(null);
+    }
+    
+    // Cleanup on component unmount
+    return () => {
+      if (gpsWatchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(gpsWatchIdRef.current);
+      }
+    };
+  }, [isGpsEnabled]);
+
+  // Toggle GPS functionality
+  const toggleGps = () => {
+    setIsGpsEnabled(!isGpsEnabled);
+  };
+
+  // Switch between front and back cameras
+  const toggleCamera = () => {
+    setFacingMode(prevMode => prevMode === "user" ? "environment" : "user");
+  };
+
+  // Toggle flash mode (simulated)
+  const toggleFlash = () => {
+    const newState = !flashMode;
+    setFlashMode(newState);
+    
+    if (newState) {
+      console.log('Flash enabled');
+      // Add any additional flash enabling logic here
+    } else {
+      console.log('Flash disabled');
+      // Ensure flash is completely disabled
     }
   };
 
@@ -79,41 +129,94 @@ const Camera = ({ onCapture }: CameraProps) => {
     }
   }, [webcamRef, isGpsEnabled, gpsPosition, getDeviceId, onCapture]);
 
+  // On camera ready
+  const handleUserMedia = () => {
+    setCameraReady(true);
+  };
+
   return (
-    <div className="camera-container">
+    <div className={`camera-container ${flashMode ? 'flash-active' : ''}`}>
+      {/* Flash overlay */}
+      {flashMode && <div className="flash-overlay"></div>}
+      
+      {/* Camera stream */}
       <Webcam
         audio={false}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
         videoConstraints={{
-          width: 720,
-          height: 480,
-          facingMode: "environment" // Use rear camera on mobile devices
+          facingMode: facingMode,
+          aspectRatio: 4/3
         }}
         className="webcam"
+        onUserMedia={handleUserMedia}
       />
       
-      <div className="camera-controls">
-        <div className="gps-toggle">
-          <label>
-            <input
-              type="checkbox"
-              checked={isGpsEnabled}
-              onChange={toggleGps}
+      {/* Camera interface overlay */}
+      <div className="camera-interface">
+        {/* Top controls */}
+        <div className="top-controls">
+          <button 
+            className={`camera-control-button ${flashMode ? 'active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFlash();
+            }}
+            aria-label={flashMode ? "Disable flash" : "Enable flash"}
+          >
+            {flashMode ? 
+              <IoFlash size={26} color="#D4AF37" /> 
+              : 
+              <IoFlashOutline size={26} color="white" />
+            }
+          </button>
+          
+          <button 
+            className={`camera-control-button ${isGpsEnabled ? 'active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleGps();
+            }}
+            aria-label={isGpsEnabled ? "Disable location" : "Enable location"}
+          >
+            <MdOutlineGpsFixed 
+              size={26} 
+              color={isGpsEnabled ? "#D4AF37" : "white"}
             />
-            Enable GPS Location
-          </label>
-          {isGpsEnabled && gpsPosition && (
-            <div className="gps-coordinates">
-              Lat: {gpsPosition.coords.latitude.toFixed(6)}, 
-              Lng: {gpsPosition.coords.longitude.toFixed(6)}
-            </div>
-          )}
+            {isGpsEnabled && <span className="control-indicator"></span>}
+          </button>
+          
+          <button 
+            className="camera-control-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleCamera();
+            }}
+            aria-label="Switch camera"
+          >
+            <IoCameraReverse size={26} color="white" />
+          </button>
         </div>
         
-        <button onClick={captureImage} className="capture-button">
-          Capture Photo
-        </button>
+        {/* GPS indicator (when enabled) */}
+        {isGpsEnabled && gpsPosition && (
+          <div className="gps-indicator">
+            <MdOutlineGpsFixed size={22} color="#D4AF37" />
+            <span>{gpsPosition.coords.latitude.toFixed(4)}, {gpsPosition.coords.longitude.toFixed(4)}</span>
+          </div>
+        )}
+        
+        {/* Center shutter button */}
+        <div className="center-controls">
+          <button 
+            onClick={captureImage} 
+            className="capture-button"
+            disabled={!cameraReady}
+            aria-label="Capture photo"
+          >
+            <div className="capture-button-inner"></div>
+          </button>
+        </div>
       </div>
     </div>
   );
