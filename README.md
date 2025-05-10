@@ -1,90 +1,170 @@
-# TruLens: Verified Photo Capture
+# TruLens - Trusted Media Verification Platform
 
-TruLens is a zero-knowledge proof application that enables cryptographic verification of photos to combat deepfakes and misinformation.
+TruLens is a decentralized platform that enables trusted media verification using zero-knowledge proofs, IPFS, and Starknet. The platform allows users to capture images, attest them with metadata (timestamp, location), and verify their authenticity.
 
-## Features
+## Overview
 
-- **Photo Capture**: Take photos with metadata (timestamp, device ID, GPS location)
-- **Zero-Knowledge Verification**: Generate and verify cryptographic proofs using Noir
-- **Blockchain Ready**: Generate attestation hashes ready for on-chain storage
-- **Privacy Preserving**: Only hashes are shared, not the original images
+TruLens enables:
+- Capture and verification of photos with cryptographic attestations
+- Optional privacy-preserving GPS data verification
+- Decentralized storage using IPFS/Pinata
+- On-chain verification through Starknet
+- Zero-knowledge proofs for private verification of capture conditions
 
-## Architecture
+## System Architecture
 
-The project consists of three main components:
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Frontend  │────▶│   Backend   │────▶│     IPFS    │
+│ (React/TS)  │◀────│  (Node.js)  │◀────│   (Pinata)  │
+└─────────────┘     └─────────────┘     └─────────────┘
+       │                   │                   
+       │                   │                   
+       ▼                   ▼                   
+┌─────────────┐     ┌─────────────┐     
+│  Starknet   │     │    Noir     │     
+│  Contracts  │     │   Circuits  │     
+└─────────────┘     └─────────────┘     
+```
 
-1. **Noir Circuit**: Zero-knowledge circuit for image attestation verification
-2. **React Frontend**: Camera capture, image processing, and proof generation
-3. **Express Backend**: API endpoints for verification and attestation storage
+## Key Components
 
-## Tech Stack
+### Frontend
+- Mobile-first design for in-the-field capture
+- Image capture with metadata (GPS, timestamp)
+- Wallet connection for Starknet interaction
+- On-chain image attestation
+- IPFS integration for decentralized storage
+- Image sharing and saving capabilities
 
-- **Noir**: Zero-knowledge proof circuit language
-- **React**: Frontend framework with TypeScript
-- **Express**: Backend API 
-- **noir_js/bb.js**: JavaScript libraries for Noir circuit execution and proof generation
+### Backend
+- IPFS storage via Pinata service
+- Zero-knowledge proof generation and verification
+- Persistent CID mapping for IPFS content
+- RESTful API for frontend communication
 
-## Prerequisites
+### Circuits
+- Zero-knowledge proofs using Noir language
+- Flexible verification with or without GPS data
+- Timestamp and location boundary verification
+- Proof generation for privacy-preserving verification
 
-- Node.js (v16+)
-- Noir (v1.0.0-beta.2 or compatible)
+### Starknet
+- Smart contracts for on-chain attestation
+- Decentralized verification and storage of attestation metadata
+- Public verification of image authenticity
 
-## Getting Started
+## Problem Solved
 
-### 1. Clone the Repository
+The platform addresses the challenge of verifying the authenticity of digital media, specifically:
 
+1. **Proving an image was captured at a specific time**
+2. **Optionally verifying the capture location** (GPS coordinates)
+3. **Providing tamper-evident verification** through cryptographic proofs
+
+Our unique solution allows:
+- Optional GPS verification (disabled GPS won't break verification)
+- Privacy-preserving verification using zero-knowledge proofs
+- Decentralized and persistent attestation records
+
+## Implementation
+
+### Mobile-First Approach
+The frontend is designed with a mobile-first approach, optimizing for:
+- Field usage by journalists, field workers, and photographers
+- Touch-friendly interface for quick capture
+- Adaptive layout for various screen sizes
+- Native device functionality (camera, GPS)
+
+### Zero-Knowledge Verification
+The Noir circuit allows verification without revealing sensitive data:
+```noir
+// Only verify GPS bounds if GPS is enabled
+if gps_enabled_bool {
+    assert(latitude >= min_latitude_bound);
+    assert(latitude <= max_latitude_bound);
+    assert(longitude >= min_longitude_bound);
+    assert(longitude <= max_longitude_bound);
+}
+```
+
+### Decentralized Storage
+All media and metadata are stored on IPFS through Pinata, with:
+- Persistent gateway access
+- Multiple fallback gateways
+- Mapping between on-chain hashes and IPFS CIDs
+
+## Setup and Running
+
+### Prerequisites
+- Node.js 16+
+- PNPM package manager
+- Noir v0.31.0 (for ZK circuit compilation)
+- Starknet CLI/Account (for contract deployment)
+
+### Installation
 ```bash
+# Clone the repository
 git clone https://github.com/your-username/trulens.git
 cd trulens
+
+# Install dependencies
+pnpm install
+
+# Setup environment variables
+cp backend/.env.example backend/.env
+# Configure your Pinata API keys in .env
 ```
 
-### 2. Compile the Noir Circuit
-
+### Running the Application
 ```bash
-cd trulens
-nargo compile
-```
-
-### 3. Start the Backend Server
-
-```bash
+# Start backend server
 cd backend
-npm install
-npm run dev
-```
+pnpm start
 
-### 4. Start the Frontend App
-
-```bash
+# Start frontend development server
 cd frontend
-npm install
-npm run dev
+pnpm dev
 ```
 
-## How It Works
+## Roadmap & Improvements
 
-1. When a photo is captured, the app records metadata including timestamp and device ID
-2. The image is hashed and combined with the metadata
-3. The device "signs" this data (simulated in the demo)
-4. The Noir circuit verifies the signature using the device's public key
-5. The circuit produces an attestation hash that can be stored on-chain
-6. This attestation hash can be used to verify the authenticity of the image later
+### Short-term
+- Complete off-chain verification implementation
+- Enhanced UI/UX for verification process
+- Support for additional file formats (video, audio)
+- Improved error handling and recovery
 
-## Project Structure
+### Mid-term
+- Multi-chain support (Ethereum, Polygon)
+- Integration with decentralized identity solutions
+- Batch attestation support
+- Enhanced metadata for specialized use cases
 
-```
-trulens/
-├── src/                # Noir circuit code
-├── frontend/           # React app
-├── backend/            # Express server
-├── shared/             # Shared resources between frontend and backend
-└── target/             # Compiled Noir circuit files
-```
+### Long-term
+- Decentralized backend with P2P communication
+- AI-resistant verification techniques
+- Governance model for verification standards
+- Industry-specific modules (journalism, insurance, legal)
 
-## Contribution
+## Technical Learnings
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+1. **Version Compatibility** is critical in zero-knowledge circuits - matching versions of Noir, noir_js, and bb.js are required.
+
+2. **Witness Generation** differs between Noir versions:
+   - v0.31.0 uses `nargo execute <witness_name>`
+   - Newer versions use `nargo prove`
+
+3. **Type Handling** - Integer values must be properly converted to BigInt and GPS coordinates should be stored as integers (e.g., multiplied by 1,000,000).
+
+4. **Conditional Assertions** in Noir provide more flexibility than hard assertions.
+
+5. **Mobile-First Development** requires careful consideration of device capabilities and limitations.
+
+## Contributing
+
+Contributions are welcome! Please check out our [contribution guidelines](CONTRIBUTING.md) for details.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
