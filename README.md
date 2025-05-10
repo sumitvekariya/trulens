@@ -134,6 +134,8 @@ pnpm dev
 - Enhanced UI/UX for verification process
 - Support for additional file formats (video, audio)
 - Improved error handling and recovery
+- **Build native mobile app** for better camera integration and provable image attestation
+- **World ID integration** for sybil-resistant attestations and human verification
 
 ### Mid-term
 - Multi-chain support (Ethereum, Polygon)
