@@ -3,25 +3,33 @@
   "version": "1.0.0",
   "description": "TruLens backend for photo verification",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "setup-contract": "node update-contract-address.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aztec/bb.js": "0.72.1",
+    "@aztec/bb.js": "0.63.1",
+    "@helia/json": "4.0.3",
+    "@helia/unixfs": "5.0.0",
     "@noir-lang/noir_js": "1.0.0-beta.2",
+    "axios": "^1.9.0",
+    "blockstore-core": "5.0.2",
     "cors": "2.8.5",
     "crypto-hash": "^3.1.0",
+    "datastore-core": "10.0.2",
     "dotenv": "16.5.0",
     "elliptic": "^6.6.1",
     "express": "5.1.0",
+    "form-data": "^4.0.2",
+    "helia": "5.3.0",
     "multer": "1.4.5-lts.2",
-    "starknet": "^6.24.1"
+    "multiformats": "13.3.3",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

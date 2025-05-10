@@ -1,0 +1,433 @@
+
+
+===== DEBUG LOG STARTED AT 2025-05-10T08:00:24.668Z =====
+
+Local verification system initialized
+Pinata service initialized successfully
+Initializing NoirService...
+Circuit path set to: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits
+✅ Pinata service initialized successfully
+Server running at http://localhost:3000
+Nargo detected: nargo version = 0.31.0
+noirc version = 0.31.0+540bef3597bd3e5775c83ec2ee3c0d4463084b4c
+(git version hash: 540bef3597bd3e5775c83ec2ee3c0d4463084b4c, is dirty: false)
+Circuit name from Nargo.toml: circuits
+For development: Force-recompiling circuit to ensure latest version...
+Compiling circuit "circuits" in: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits...
+Circuit "circuits" compiled successfully.
+Attempting to load compiled circuit from: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits/target/circuits.json
+Circuit ABI loaded. Input parameters:
+- verifier_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- min_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- max_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- min_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- min_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- signed_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- image_signature: {"kind":"array","length":64,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- timestamp: {"kind":"integer","sign":"unsigned","width":64}
+- latitude: {"kind":"integer","sign":"signed","width":64}
+- longitude: {"kind":"integer","sign":"signed","width":64}
+- gps_enabled_bool: {"kind":"boolean"}
+Circuit "circuits" loaded successfully.
+✅ NoirService initialized successfully.
+✅ Noir service initialized successfully
+Stored mapping: 0xc0fb33904124a00b7ae9abbb6365e1 -> bafkreigaledyigjj6gyuxt2ugcq4emkifwgqakcnxyzwfg73ipnnj2u7zm
+Generating proof with inputs for noirService: {"verifierImageHash":"f5553008674de5427b69...","signedImageHash":"f5553008674de5427b69...","timestamp":1746864530,"deviceId":368148957,"latitude":0,"longitude":0,"gpsEnabled":false,"imageSignature":"1,0,2660281649151202...","publicKey":{"x":"0x64fe52f7c5f0ca86dd...","y":"0x64fe52f7c5f0ca86dd..."}}
+
+
+ERROR in generateTimeLocationProof [2025-05-10T08:09:01.849Z]:
+Error: `unwrap_throw` failed
+    at module.exports.__wbindgen_throw (/Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/backend/node_modules/.pnpm/@noir-lang+noirc_abi@1.0.0-beta.0/node_modules/@noir-lang/noirc_abi/nodejs/noirc_abi_wasm.js:336:11)
+    at wasm://wasm/0065171e:wasm-function[1324]:0x128627
+    at wasm://wasm/0065171e:wasm-function[56]:0x7a558
+    at module.exports.abiEncode (/Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/backend/node_modules/.pnpm/@noir-lang+noirc_abi@1.0.0-beta.0/node_modules/@noir-lang/noirc_abi/nodejs/noirc_abi_wasm.js:138:14)
+    at generateWitness (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/node_modules/.pnpm/@noir-lang+noir_js@1.0.0-beta.0/node_modules/@noir-lang/noir_js/lib/witness_generation.mjs:39:24)
+    at Noir.execute (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/node_modules/.pnpm/@noir-lang+noir_js@1.0.0-beta.0/node_modules/@noir-lang/noir_js/lib/program.mjs:29:37)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async NoirService.generateTimeLocationProof (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/noir-service.js:466:27)
+    at async file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/server.js:557:25Raw inputs received for proof generation: {"verifierImageHash":"f5553008674de5427b69f83f2497854461504b91c1ce1143ec4d7933f1b8e4ef","signedImageHash":"f5553008674de5427b69f83f2497854461504b91c1ce1143ec4d7933f1b8e4ef","timestamp":1746864530,"deviceId":368148957,"latitude":0,"longitude":0,"gpsEnabled":false,"imageSignature":"1,0,2660281649151202070374555151620910296583485384897206808879956459534798197994,2648768001065401827447322226580487508714122746947306860017410495009409431299,2215961467442565342334679936600845199275889794087317270213732948978786927890","publicKey":{"x":"0x64fe52f7c5f0ca86dd978d1777db2a6b739055ba01ec9530612a1eb7f8323c","y":"0x64fe52f7c5f0ca86dd978d1777db2a6b739055ba01ec9530612a1eb7f8323c"}}
+GPS enabled: false
+GPS disabled. Coordinates will not be validated.
+Formatting inputs based on ABI:
+Formatting "verifier_image_hash": raw type=object, raw value (sample)="245,85,48,8,103,77,229,66,123,105,248,63,36,151,13...", ABI type={"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+Formatted "verifier_image_hash": new type=object, new value (sample)="245,85,48,8,103,77,229,66,123,105,248,63,36,151,13..."
+Formatting "min_timestamp_bound": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"unsigned","width":64}
+Formatted "min_timestamp_bound": new type=bigint, new value (sample)="0"
+Formatting "max_timestamp_bound": raw type=number, raw value (sample)="1746950941", ABI type={"kind":"integer","sign":"unsigned","width":64}
+Formatted "max_timestamp_bound": new type=bigint, new value (sample)="1746950941"
+Formatting "min_latitude_bound": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "min_latitude_bound": new type=bigint, new value (sample)="0"
+Formatting "max_latitude_bound": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "max_latitude_bound": new type=bigint, new value (sample)="0"
+Formatting "min_longitude_bound": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "min_longitude_bound": new type=bigint, new value (sample)="0"
+Formatting "max_longitude_bound": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "max_longitude_bound": new type=bigint, new value (sample)="0"
+Formatting "signed_image_hash": raw type=object, raw value (sample)="245,85,48,8,103,77,229,66,123,105,248,63,36,151,13...", ABI type={"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+Formatted "signed_image_hash": new type=object, new value (sample)="245,85,48,8,103,77,229,66,123,105,248,63,36,151,13..."
+Formatting "image_signature": raw type=string, raw value (sample)="1,0,2660281649151202070374555151620910296583485384...", ABI type={"kind":"array","length":64,"type":{"kind":"integer","sign":"unsigned","width":8}}
+_formatValueBasedOnType (u8[] from CSV): Parsing "1,0,266028164915120207037455515162091029..."
+WARN: _formatValueBasedOnType (u8[] from CSV): Value 2.6602816491512022e+75 out of 0-255 range. Using 0 (original & 0xFF).
+WARN: _formatValueBasedOnType (u8[] from CSV): Value 2.648768001065402e+75 out of 0-255 range. Using 0 (original & 0xFF).
+WARN: _formatValueBasedOnType (u8[] from CSV): Value 2.2159614674425655e+75 out of 0-255 range. Using 0 (original & 0xFF).
+Formatted "image_signature": new type=object, new value (sample)="1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,..."
+Formatting "timestamp": raw type=number, raw value (sample)="1746864530", ABI type={"kind":"integer","sign":"unsigned","width":64}
+Formatted "timestamp": new type=bigint, new value (sample)="1746864530"
+Formatting "latitude": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "latitude": new type=bigint, new value (sample)="0"
+Formatting "longitude": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "longitude": new type=bigint, new value (sample)="0"
+Formatting "gps_enabled_bool": raw type=boolean, raw value (sample)="false", ABI type={"kind":"boolean"}
+Formatted "gps_enabled_bool": new type=boolean, new value (sample)="false"
+Formatted inputs for Noir circuit: {"verifier_image_hash":["245","85","48","8","103","77","229","66","123","105","248","63","36","151","133","68","97","80","75","145","193","206","17","67","236","77","121","51","241","184","228","239"],"min_timestamp_bound":"0","max_timestamp_bound":"1746950941","min_latitude_bound":"0","max_latitude_bound":"0","min_longitude_bound":"0","max_longitude_bound":"0","signed_image_hash":["245","85","48","8","103","77","229","66","123","105","248","63","36","151","133","68","97","80","75","145","193","206","17","67","236","77","121","51","241","184","228","239"],"image_signature":[1,0,0,0,0,"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"],"timestamp":"1746864530","latitude":"0","longitude":"0","gps_enabled_bool":false}
+Debug inputs written to debug_inputs.json
+Executing Noir circuit with noir_js...
+ERROR: Error in generateTimeLocationProof: Error: `unwrap_throw` failed
+    at module.exports.__wbindgen_throw (/Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/backend/node_modules/.pnpm/@noir-lang+noirc_abi@1.0.0-beta.0/node_modules/@noir-lang/noirc_abi/nodejs/noirc_abi_wasm.js:336:11)
+    at wasm://wasm/0065171e:wasm-function[1324]:0x128627
+    at wasm://wasm/0065171e:wasm-function[56]:0x7a558
+    at module.exports.abiEncode (/Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/backend/node_modules/.pnpm/@noir-lang+noirc_abi@1.0.0-beta.0/node_modules/@noir-lang/noirc_abi/nodejs/noirc_abi_wasm.js:138:14)
+    at generateWitness (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/node_modules/.pnpm/@noir-lang+noir_js@1.0.0-beta.0/node_modules/@noir-lang/noir_js/lib/witness_generation.mjs:39:24)
+    at Noir.execute (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/node_modules/.pnpm/@noir-lang+noir_js@1.0.0-beta.0/node_modules/@noir-lang/noir_js/lib/program.mjs:29:37)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async NoirService.generateTimeLocationProof (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/noir-service.js:466:27)
+    at async file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/server.js:557:25
+
+
+===== DEBUG LOG STARTED AT 2025-05-10T08:09:03.032Z =====
+
+Local verification system initialized
+Pinata service initialized successfully
+Initializing NoirService...
+Circuit path set to: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits
+✅ Pinata service initialized successfully
+Server running at http://localhost:3000
+Nargo detected: nargo version = 0.31.0
+noirc version = 0.31.0+540bef3597bd3e5775c83ec2ee3c0d4463084b4c
+(git version hash: 540bef3597bd3e5775c83ec2ee3c0d4463084b4c, is dirty: false)
+Circuit name from Nargo.toml: circuits
+For development: Force-recompiling circuit to ensure latest version...
+Compiling circuit "circuits" in: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits...
+Circuit "circuits" compiled successfully.
+Attempting to load compiled circuit from: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits/target/circuits.json
+Circuit ABI loaded. Input parameters:
+- verifier_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- min_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- max_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- min_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- min_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- signed_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- image_signature: {"kind":"array","length":64,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- timestamp: {"kind":"integer","sign":"unsigned","width":64}
+- latitude: {"kind":"integer","sign":"signed","width":64}
+- longitude: {"kind":"integer","sign":"signed","width":64}
+- gps_enabled_bool: {"kind":"boolean"}
+Circuit "circuits" loaded successfully.
+✅ NoirService initialized successfully.
+✅ Noir service initialized successfully
+Stored mapping: 0x5b2341d2196dc581b41a4a9222ff64 -> bafkreiesryt62w5b3anwqla5vyqhzhyehdpz7smpseibrdgcn5rsks7q5q
+Generating proof with inputs for noirService: {"verifierImageHash":"ef417de4f9f4656b6e38...","signedImageHash":"ef417de4f9f4656b6e38...","timestamp":1746864594,"deviceId":397820793,"latitude":0,"longitude":0,"gpsEnabled":false,"imageSignature":"1,0,2660281649151202...","publicKey":{"x":"0x64fe52f7c5f0ca86dd...","y":"0x64fe52f7c5f0ca86dd..."}}
+
+
+ERROR in generateTimeLocationProof [2025-05-10T08:10:04.929Z]:
+Error: `unwrap_throw` failed
+    at module.exports.__wbindgen_throw (/Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/backend/node_modules/.pnpm/@noir-lang+noirc_abi@1.0.0-beta.0/node_modules/@noir-lang/noirc_abi/nodejs/noirc_abi_wasm.js:336:11)
+    at wasm://wasm/0065171e:wasm-function[1324]:0x128627
+    at wasm://wasm/0065171e:wasm-function[56]:0x7a558
+    at module.exports.abiEncode (/Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/backend/node_modules/.pnpm/@noir-lang+noirc_abi@1.0.0-beta.0/node_modules/@noir-lang/noirc_abi/nodejs/noirc_abi_wasm.js:138:14)
+    at generateWitness (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/node_modules/.pnpm/@noir-lang+noir_js@1.0.0-beta.0/node_modules/@noir-lang/noir_js/lib/witness_generation.mjs:39:24)
+    at Noir.execute (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/node_modules/.pnpm/@noir-lang+noir_js@1.0.0-beta.0/node_modules/@noir-lang/noir_js/lib/program.mjs:29:37)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async NoirService.generateTimeLocationProof (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/noir-service.js:466:27)
+    at async file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/server.js:557:25Raw inputs received for proof generation: {"verifierImageHash":"ef417de4f9f4656b6e38609cab55fddd2fbe020ff1c49311b4db4c3596576b7f","signedImageHash":"ef417de4f9f4656b6e38609cab55fddd2fbe020ff1c49311b4db4c3596576b7f","timestamp":1746864594,"deviceId":397820793,"latitude":0,"longitude":0,"gpsEnabled":false,"imageSignature":"1,0,2660281649151202070374555151620910296583485384897206808879956459534798197994,2499110284740223865349389311148460641068298370469368285958972205359108687998,1861234472411682322118600388345056243232889946674462737956316970587913380620","publicKey":{"x":"0x64fe52f7c5f0ca86dd978d1777db2a6b739055ba01ec9530612a1eb7f8323c","y":"0x64fe52f7c5f0ca86dd978d1777db2a6b739055ba01ec9530612a1eb7f8323c"}}
+GPS enabled: false
+GPS disabled. Coordinates will not be validated.
+Formatting inputs based on ABI:
+Formatting "verifier_image_hash": raw type=object, raw value (sample)="239,65,125,228,249,244,101,107,110,56,96,156,171,8...", ABI type={"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+Formatted "verifier_image_hash": new type=object, new value (sample)="239,65,125,228,249,244,101,107,110,56,96,156,171,8..."
+Formatting "min_timestamp_bound": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"unsigned","width":64}
+Formatted "min_timestamp_bound": new type=bigint, new value (sample)="0"
+Formatting "max_timestamp_bound": raw type=number, raw value (sample)="1746951004", ABI type={"kind":"integer","sign":"unsigned","width":64}
+Formatted "max_timestamp_bound": new type=bigint, new value (sample)="1746951004"
+Formatting "min_latitude_bound": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "min_latitude_bound": new type=bigint, new value (sample)="0"
+Formatting "max_latitude_bound": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "max_latitude_bound": new type=bigint, new value (sample)="0"
+Formatting "min_longitude_bound": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "min_longitude_bound": new type=bigint, new value (sample)="0"
+Formatting "max_longitude_bound": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "max_longitude_bound": new type=bigint, new value (sample)="0"
+Formatting "signed_image_hash": raw type=object, raw value (sample)="239,65,125,228,249,244,101,107,110,56,96,156,171,8...", ABI type={"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+Formatted "signed_image_hash": new type=object, new value (sample)="239,65,125,228,249,244,101,107,110,56,96,156,171,8..."
+Formatting "image_signature": raw type=string, raw value (sample)="1,0,2660281649151202070374555151620910296583485384...", ABI type={"kind":"array","length":64,"type":{"kind":"integer","sign":"unsigned","width":8}}
+_formatValueBasedOnType (u8[] from CSV): Parsing "1,0,266028164915120207037455515162091029..."
+WARN: _formatValueBasedOnType (u8[] from CSV): Value 2.6602816491512022e+75 out of 0-255 range. Using 0 (original & 0xFF).
+WARN: _formatValueBasedOnType (u8[] from CSV): Value 2.4991102847402237e+75 out of 0-255 range. Using 0 (original & 0xFF).
+WARN: _formatValueBasedOnType (u8[] from CSV): Value 1.861234472411682e+75 out of 0-255 range. Using 0 (original & 0xFF).
+Formatted "image_signature": new type=object, new value (sample)="1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,..."
+Formatting "timestamp": raw type=number, raw value (sample)="1746864594", ABI type={"kind":"integer","sign":"unsigned","width":64}
+Formatted "timestamp": new type=bigint, new value (sample)="1746864594"
+Formatting "latitude": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "latitude": new type=bigint, new value (sample)="0"
+Formatting "longitude": raw type=number, raw value (sample)="0", ABI type={"kind":"integer","sign":"signed","width":64}
+Formatted "longitude": new type=bigint, new value (sample)="0"
+Formatting "gps_enabled_bool": raw type=boolean, raw value (sample)="false", ABI type={"kind":"boolean"}
+Formatted "gps_enabled_bool": new type=boolean, new value (sample)="false"
+Formatted inputs for Noir circuit: {"verifier_image_hash":["239","65","125","228","249","244","101","107","110","56","96","156","171","85","253","221","47","190","2","15","241","196","147","17","180","219","76","53","150","87","107","127"],"min_timestamp_bound":"0","max_timestamp_bound":"1746951004","min_latitude_bound":"0","max_latitude_bound":"0","min_longitude_bound":"0","max_longitude_bound":"0","signed_image_hash":["239","65","125","228","249","244","101","107","110","56","96","156","171","85","253","221","47","190","2","15","241","196","147","17","180","219","76","53","150","87","107","127"],"image_signature":[1,0,0,0,0,"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"],"timestamp":"1746864594","latitude":"0","longitude":"0","gps_enabled_bool":false}
+Debug inputs written to debug_inputs.json
+Executing Noir circuit with noir_js...
+ERROR: Error in generateTimeLocationProof: Error: `unwrap_throw` failed
+    at module.exports.__wbindgen_throw (/Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/backend/node_modules/.pnpm/@noir-lang+noirc_abi@1.0.0-beta.0/node_modules/@noir-lang/noirc_abi/nodejs/noirc_abi_wasm.js:336:11)
+    at wasm://wasm/0065171e:wasm-function[1324]:0x128627
+    at wasm://wasm/0065171e:wasm-function[56]:0x7a558
+    at module.exports.abiEncode (/Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/backend/node_modules/.pnpm/@noir-lang+noirc_abi@1.0.0-beta.0/node_modules/@noir-lang/noirc_abi/nodejs/noirc_abi_wasm.js:138:14)
+    at generateWitness (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/node_modules/.pnpm/@noir-lang+noir_js@1.0.0-beta.0/node_modules/@noir-lang/noir_js/lib/witness_generation.mjs:39:24)
+    at Noir.execute (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/node_modules/.pnpm/@noir-lang+noir_js@1.0.0-beta.0/node_modules/@noir-lang/noir_js/lib/program.mjs:29:37)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async NoirService.generateTimeLocationProof (file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/noir-service.js:466:27)
+    at async file:///Users/sarkazein./Documents/Personal/Hackathon/Noirhack%2025/trulens/backend/server.js:557:25
+
+
+===== DEBUG LOG STARTED AT 2025-05-10T08:10:05.853Z =====
+
+Local verification system initialized
+Pinata service initialized successfully
+Initializing NoirService...
+Circuit path set to: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits
+✅ Pinata service initialized successfully
+Server running at http://localhost:3000
+Nargo detected: nargo version = 0.31.0
+noirc version = 0.31.0+540bef3597bd3e5775c83ec2ee3c0d4463084b4c
+(git version hash: 540bef3597bd3e5775c83ec2ee3c0d4463084b4c, is dirty: false)
+Circuit name from Nargo.toml: circuits
+For development: Force-recompiling circuit to ensure latest version...
+Compiling circuit "circuits" in: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits...
+Circuit "circuits" compiled successfully.
+Attempting to load compiled circuit from: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits/target/circuits.json
+Circuit ABI loaded. Input parameters:
+- verifier_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- min_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- max_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- min_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- min_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- signed_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- image_signature: {"kind":"array","length":64,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- timestamp: {"kind":"integer","sign":"unsigned","width":64}
+- latitude: {"kind":"integer","sign":"signed","width":64}
+- longitude: {"kind":"integer","sign":"signed","width":64}
+- gps_enabled_bool: {"kind":"boolean"}
+Circuit "circuits" loaded successfully.
+✅ NoirService initialized successfully.
+✅ Noir service initialized successfully
+Stored mapping: 0x4746b2fcd9cf7056428303fbae04aa -> bafkreicdry6xppdc7lzoztzmbwlwgnm5vgtjjwbrx7zhyhtqbiscqbqdna
+Retrieving data from IPFS with CID: bafkreicdry6xppdc7lzoztzmbwlwgnm5vgtjjwbrx7zhyhtqbiscqbqdna
+WARN: Failed to retrieve from main gateway: Request failed with status code 500
+Trying alternative gateway: https://ipfs.io/ipfs
+WARN: Failed to retrieve from https://ipfs.io/ipfs: Request failed with status code 403
+Trying alternative gateway: https://cloudflare-ipfs.com/ipfs
+WARN: Failed to retrieve from https://cloudflare-ipfs.com/ipfs: getaddrinfo ENOTFOUND cloudflare-ipfs.com
+Trying alternative gateway: https://dweb.link/ipfs
+Retrieving data from IPFS with CID: bafkreicdry6xppdc7lzoztzmbwlwgnm5vgtjjwbrx7zhyhtqbiscqbqdna
+WARN: Failed to retrieve from main gateway: Request failed with status code 500
+Trying alternative gateway: https://ipfs.io/ipfs
+WARN: Failed to retrieve from https://ipfs.io/ipfs: Request failed with status code 403
+Trying alternative gateway: https://cloudflare-ipfs.com/ipfs
+WARN: Failed to retrieve from https://cloudflare-ipfs.com/ipfs: getaddrinfo ENOTFOUND cloudflare-ipfs.com
+Trying alternative gateway: https://dweb.link/ipfs
+Retrieving data from IPFS with CID: bafkreicdry6xppdc7lzoztzmbwlwgnm5vgtjjwbrx7zhyhtqbiscqbqdna
+WARN: Failed to retrieve from main gateway: Request failed with status code 500
+Trying alternative gateway: https://ipfs.io/ipfs
+WARN: Failed to retrieve from https://ipfs.io/ipfs: Request failed with status code 403
+Trying alternative gateway: https://cloudflare-ipfs.com/ipfs
+WARN: Failed to retrieve from https://cloudflare-ipfs.com/ipfs: getaddrinfo ENOTFOUND cloudflare-ipfs.com
+Trying alternative gateway: https://dweb.link/ipfs
+
+
+===== DEBUG LOG STARTED AT 2025-05-10T08:54:12.694Z =====
+
+Local verification system initialized
+Pinata service initialized successfully
+Initializing NoirService...
+Circuit path set to: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits
+✅ Pinata service initialized successfully
+Server running at http://localhost:3000
+Nargo detected: nargo version = 0.31.0
+noirc version = 0.31.0+540bef3597bd3e5775c83ec2ee3c0d4463084b4c
+(git version hash: 540bef3597bd3e5775c83ec2ee3c0d4463084b4c, is dirty: false)
+Circuit name from Nargo.toml: circuits
+For development: Force-recompiling circuit to ensure latest version...
+Compiling circuit "circuits" in: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits...
+Circuit "circuits" compiled successfully.
+Attempting to load compiled circuit from: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits/target/circuits.json
+Circuit ABI loaded. Input parameters:
+- verifier_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- min_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- max_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- min_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- min_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- signed_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- image_signature: {"kind":"array","length":64,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- timestamp: {"kind":"integer","sign":"unsigned","width":64}
+- latitude: {"kind":"integer","sign":"signed","width":64}
+- longitude: {"kind":"integer","sign":"signed","width":64}
+- gps_enabled_bool: {"kind":"boolean"}
+Circuit "circuits" loaded successfully.
+✅ NoirService initialized successfully.
+✅ Noir service initialized successfully
+
+
+===== DEBUG LOG STARTED AT 2025-05-10T08:54:14.596Z =====
+
+Local verification system initialized
+Pinata service initialized successfully
+Initializing NoirService...
+Circuit path set to: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits
+✅ Pinata service initialized successfully
+Server running at http://localhost:3000
+Nargo detected: nargo version = 0.31.0
+noirc version = 0.31.0+540bef3597bd3e5775c83ec2ee3c0d4463084b4c
+(git version hash: 540bef3597bd3e5775c83ec2ee3c0d4463084b4c, is dirty: false)
+Circuit name from Nargo.toml: circuits
+For development: Force-recompiling circuit to ensure latest version...
+Compiling circuit "circuits" in: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits...
+Circuit "circuits" compiled successfully.
+Attempting to load compiled circuit from: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits/target/circuits.json
+Circuit ABI loaded. Input parameters:
+- verifier_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- min_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- max_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- min_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- min_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- signed_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- image_signature: {"kind":"array","length":64,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- timestamp: {"kind":"integer","sign":"unsigned","width":64}
+- latitude: {"kind":"integer","sign":"signed","width":64}
+- longitude: {"kind":"integer","sign":"signed","width":64}
+- gps_enabled_bool: {"kind":"boolean"}
+Circuit "circuits" loaded successfully.
+✅ NoirService initialized successfully.
+✅ Noir service initialized successfully
+
+
+===== DEBUG LOG STARTED AT 2025-05-10T08:57:22.167Z =====
+
+Local verification system initialized
+Pinata service initialized successfully
+Initializing NoirService...
+Circuit path set to: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits
+✅ Pinata service initialized successfully
+Server running at http://localhost:3000
+Nargo detected: nargo version = 0.31.0
+noirc version = 0.31.0+540bef3597bd3e5775c83ec2ee3c0d4463084b4c
+(git version hash: 540bef3597bd3e5775c83ec2ee3c0d4463084b4c, is dirty: false)
+Circuit name from Nargo.toml: circuits
+For development: Force-recompiling circuit to ensure latest version...
+Compiling circuit "circuits" in: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits...
+Circuit "circuits" compiled successfully.
+Attempting to load compiled circuit from: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits/target/circuits.json
+Circuit ABI loaded. Input parameters:
+- verifier_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- min_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- max_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- min_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- min_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- signed_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- image_signature: {"kind":"array","length":64,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- timestamp: {"kind":"integer","sign":"unsigned","width":64}
+- latitude: {"kind":"integer","sign":"signed","width":64}
+- longitude: {"kind":"integer","sign":"signed","width":64}
+- gps_enabled_bool: {"kind":"boolean"}
+Circuit "circuits" loaded successfully.
+✅ NoirService initialized successfully.
+✅ Noir service initialized successfully
+Stored mapping: 0xb4d94f56e93c15886d2732caf011fa -> bafkreieztrxkc2x5y2tigrvu242hxowzfgrqx4ya3zj4zw4qmo4odvp36i
+
+
+===== DEBUG LOG STARTED AT 2025-05-10T08:58:03.824Z =====
+
+Local verification system initialized
+Pinata service initialized successfully
+Initializing NoirService...
+Circuit path set to: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits
+✅ Pinata service initialized successfully
+Server running at http://localhost:3000
+Nargo detected: nargo version = 0.31.0
+noirc version = 0.31.0+540bef3597bd3e5775c83ec2ee3c0d4463084b4c
+(git version hash: 540bef3597bd3e5775c83ec2ee3c0d4463084b4c, is dirty: false)
+Circuit name from Nargo.toml: circuits
+For development: Force-recompiling circuit to ensure latest version...
+Compiling circuit "circuits" in: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits...
+Circuit "circuits" compiled successfully.
+Attempting to load compiled circuit from: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits/target/circuits.json
+Circuit ABI loaded. Input parameters:
+- verifier_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- min_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- max_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- min_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- min_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- signed_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- image_signature: {"kind":"array","length":64,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- timestamp: {"kind":"integer","sign":"unsigned","width":64}
+- latitude: {"kind":"integer","sign":"signed","width":64}
+- longitude: {"kind":"integer","sign":"signed","width":64}
+- gps_enabled_bool: {"kind":"boolean"}
+Circuit "circuits" loaded successfully.
+✅ NoirService initialized successfully.
+✅ Noir service initialized successfully
+Stored mapping: 0x389a3c9f3bbd13a4a073f9225c0f42 -> bafkreihjcck4qdw4munkim5jw2gsy6kb5r66ekcx4blt3l2lyclevz5a7q
+
+
+===== DEBUG LOG STARTED AT 2025-05-10T08:58:20.048Z =====
+
+Local verification system initialized
+Pinata service initialized successfully
+Initializing NoirService...
+Circuit path set to: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits
+✅ Pinata service initialized successfully
+Server running at http://localhost:3000
+Nargo detected: nargo version = 0.31.0
+noirc version = 0.31.0+540bef3597bd3e5775c83ec2ee3c0d4463084b4c
+(git version hash: 540bef3597bd3e5775c83ec2ee3c0d4463084b4c, is dirty: false)
+Circuit name from Nargo.toml: circuits
+For development: Force-recompiling circuit to ensure latest version...
+Compiling circuit "circuits" in: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits...
+Circuit "circuits" compiled successfully.
+Attempting to load compiled circuit from: /Users/sarkazein./Documents/Personal/Hackathon/Noirhack 25/trulens/circuits/target/circuits.json
+Circuit ABI loaded. Input parameters:
+- verifier_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- min_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- max_timestamp_bound: {"kind":"integer","sign":"unsigned","width":64}
+- min_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_latitude_bound: {"kind":"integer","sign":"signed","width":64}
+- min_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- max_longitude_bound: {"kind":"integer","sign":"signed","width":64}
+- signed_image_hash: {"kind":"array","length":32,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- image_signature: {"kind":"array","length":64,"type":{"kind":"integer","sign":"unsigned","width":8}}
+- timestamp: {"kind":"integer","sign":"unsigned","width":64}
+- latitude: {"kind":"integer","sign":"signed","width":64}
+- longitude: {"kind":"integer","sign":"signed","width":64}
+- gps_enabled_bool: {"kind":"boolean"}
+Circuit "circuits" loaded successfully.
+✅ NoirService initialized successfully.
+✅ Noir service initialized successfully
+Retrieving data from IPFS with CID: bafkreihjcck4qdw4munkim5jw2gsy6kb5r66ekcx4blt3l2lyclevz5a7q
+WARN: Failed to retrieve from main gateway: Request failed with status code 401
+Trying alternative gateway: https://ipfs.io/ipfs
+WARN: Failed to retrieve from https://ipfs.io/ipfs: Request failed with status code 403
+Trying alternative gateway: https://cloudflare-ipfs.com/ipfs
+WARN: Failed to retrieve from https://cloudflare-ipfs.com/ipfs: getaddrinfo ENOTFOUND cloudflare-ipfs.com
+Trying alternative gateway: https://dweb.link/ipfs
