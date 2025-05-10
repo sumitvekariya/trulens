@@ -1,66 +1,90 @@
-# Image Attestation Circuit
+# TruLens: Verified Photo Capture
 
-This Noir circuit implements cryptographic attestation for images captured by trusted devices.
+TruLens is a zero-knowledge proof application that enables cryptographic verification of photos to combat deepfakes and misinformation.
 
-## Purpose
+## Features
 
-The circuit verifies:
-1. The authenticity of an image by validating the device's cryptographic signature
-2. The integrity of metadata (timestamp, device ID, optional GPS coordinates)
-3. The correctness of the attestation hash that will be stored on-chain
+- **Photo Capture**: Take photos with metadata (timestamp, device ID, GPS location)
+- **Zero-Knowledge Verification**: Generate and verify cryptographic proofs using Noir
+- **Blockchain Ready**: Generate attestation hashes ready for on-chain storage
+- **Privacy Preserving**: Only hashes are shared, not the original images
+
+## Architecture
+
+The project consists of three main components:
+
+1. **Noir Circuit**: Zero-knowledge circuit for image attestation verification
+2. **React Frontend**: Camera capture, image processing, and proof generation
+3. **Express Backend**: API endpoints for verification and attestation storage
+
+## Tech Stack
+
+- **Noir**: Zero-knowledge proof circuit language
+- **React**: Frontend framework with TypeScript
+- **Express**: Backend API 
+- **noir_js/bb.js**: JavaScript libraries for Noir circuit execution and proof generation
+
+## Prerequisites
+
+- Node.js (v16+)
+- Noir (v1.0.0-beta.2 or compatible)
+
+## Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/trulens.git
+cd trulens
+```
+
+### 2. Compile the Noir Circuit
+
+```bash
+cd trulens
+nargo compile
+```
+
+### 3. Start the Backend Server
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+### 4. Start the Frontend App
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ## How It Works
 
-The attestation process follows these steps:
+1. When a photo is captured, the app records metadata including timestamp and device ID
+2. The image is hashed and combined with the metadata
+3. The device "signs" this data (simulated in the demo)
+4. The Noir circuit verifies the signature using the device's public key
+5. The circuit produces an attestation hash that can be stored on-chain
+6. This attestation hash can be used to verify the authenticity of the image later
 
-1. **Image Hashing**: The original image is hashed on the device when captured (SHA-256)
-2. **Metadata Attachment**: Timestamp, device ID, and optional GPS coordinates are recorded
-3. **Signing**: The device signs the combined data using its private key
-4. **Verification**: The circuit verifies the signature using the device's public key
-5. **Hash Generation**: A final attestation hash is computed and made available on-chain
+## Project Structure
 
-## Circuit Inputs
-
-- `image_hash`: SHA-256 hash of the original image [32 bytes]
-- `timestamp`: Unix timestamp when the image was captured
-- `device_id`: Unique identifier for the device
-- `latitude` & `longitude`: Optional GPS coordinates (if enabled)
-- `gps_enabled`: Flag indicating whether GPS data is included
-- `signature_r` & `signature_s`: Components of the ECDSA signature
-- `public_key_x` & `public_key_y`: Device's public key components
-- `attestation_hash`: Public output - the hash to be stored on-chain
-
-## Integration
-
-This circuit is designed to work within a larger system:
-
-1. **Mobile App**: Captures images, collects metadata, and signs the data
-2. **Backend Service**: Generates zero-knowledge proofs using this circuit
-3. **Blockchain**: Stores the attestation hash and links to device public keys
-4. **Verification Portal**: Allows anyone to verify the authenticity of an image
-
-## Future Improvements
-
-- Full ECDSA signature verification implementation
-- Support for additional metadata fields
-- Integration with hardware secure elements (TPM, Secure Enclave)
-- Support for multimedia formats beyond images
-
-## Build and Test
-
-To build the circuit:
-
-```bash
-cd image_attestation
-nargo build
+```
+trulens/
+├── src/                # Noir circuit code
+├── frontend/           # React app
+├── backend/            # Express server
+├── shared/             # Shared resources between frontend and backend
+└── target/             # Compiled Noir circuit files
 ```
 
-To run tests:
+## Contribution
 
-```bash
-nargo test
-```
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-[MIT License](LICENSE) 
+This project is licensed under the MIT License - see the LICENSE file for details. 

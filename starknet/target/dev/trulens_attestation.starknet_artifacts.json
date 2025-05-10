@@ -1,0 +1,1 @@
+{"version":1,"contracts":[{"id":"1chd8qq2ailhg","package_name":"trulens_attestation","contract_name":"PhotoAttestation","module_path":"trulens_attestation::PhotoAttestation","artifacts":{"sierra":"trulens_attestation_PhotoAttestation.contract_class.json","casm":"trulens_attestation_PhotoAttestation.compiled_contract_class.json"}}]}

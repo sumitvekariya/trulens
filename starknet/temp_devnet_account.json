@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "variant": {
+    "type": "open_zeppelin",
+    "version": 1,
+    "public_key": "0x05add859cfcec57d14177c2b4a0447c3acfbe1091e7bcec5d4c0b2f72216ac59"
+  },
+  "deployment": {
+    "status": "deployed",
+    "class_hash": "0x05b4b537eaa2399e3aa99c4e2e0208ebd6c71bc1467938cd52c798c601e43564",
+    "address": "0x04fead652230fa6de78d4bf4a951658c38c86bed8b4d95d51d2554a3e0f8b955",
+    "chain_id": "SN_SEPOLIA"
+  }
+} 

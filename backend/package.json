@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "setup-contract": "node update-contract-address.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,9 +16,12 @@
     "@aztec/bb.js": "0.72.1",
     "@noir-lang/noir_js": "1.0.0-beta.2",
     "cors": "2.8.5",
+    "crypto-hash": "^3.1.0",
     "dotenv": "16.5.0",
+    "elliptic": "^6.6.1",
     "express": "5.1.0",
-    "multer": "1.4.5-lts.2"
+    "multer": "1.4.5-lts.2",
+    "starknet": "^6.24.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

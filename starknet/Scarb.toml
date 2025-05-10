@@ -1,0 +1,15 @@
+[package]
+name = "trulens_attestation"
+version = "0.1.0"
+edition = "2023_10"
+
+[dependencies]
+starknet = ">=2.4.0"
+garaga = { git = "https://github.com/keep-starknet-strange/garaga" }
+
+[[target.starknet-contract]]
+sierra = true
+casm = true
+
+[cairo]
+sierra-replace-ids = true 

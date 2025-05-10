@@ -19,6 +19,7 @@ const Camera = ({ onCapture }: CameraProps) => {
   const webcamRef = useRef<Webcam>(null);
   const [isGpsEnabled, setIsGpsEnabled] = useState(false);
   const [gpsPosition, setGpsPosition] = useState<GeolocationPosition | null>(null);
+  const [gpsError, setGpsError] = useState<string | null>(null);
   const [facingMode, setFacingMode] = useState<"user" | "environment">("environment");
   const [flashMode, setFlashMode] = useState(false);
   const [cameraReady, setCameraReady] = useState(false);
@@ -29,22 +30,59 @@ const Camera = ({ onCapture }: CameraProps) => {
     if (isGpsEnabled) {
       // Start watching position when GPS is enabled
       if (navigator.geolocation) {
+        // Reset error state when trying again
+        setGpsError(null);
+        
         // Get initial position
         navigator.geolocation.getCurrentPosition(
-          (position) => setGpsPosition(position),
-          (error) => console.error('Error getting location:', error)
+          (position) => {
+            setGpsPosition(position);
+            setGpsError(null);
+          },
+          (error) => {
+            console.error('Error getting location:', error);
+            // Handle different error codes
+            if (error.code === 1) {
+              setGpsError("Location access denied. Please enable location permission.");
+            } else if (error.code === 2) {
+              setGpsError("Unable to determine your location. Please try again in a different area.");
+            } else if (error.code === 3) {
+              setGpsError("Location request timed out. Please try again.");
+            } else {
+              setGpsError("Unknown location error occurred.");
+            }
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
         );
         
         // Set up continuous watching
         const watchId = navigator.geolocation.watchPosition(
-          (position) => setGpsPosition(position),
-          (error) => console.error('Error watching location:', error),
-          { enableHighAccuracy: true }
+          (position) => {
+            setGpsPosition(position);
+            setGpsError(null);
+          },
+          (error) => {
+            console.error('Error watching location:', error);
+            // Only set error if we don't already have a position
+            if (!gpsPosition) {
+              if (error.code === 1) {
+                setGpsError("Location access denied. Please enable location permission.");
+              } else if (error.code === 2) {
+                setGpsError("Unable to determine your location. Please try again in a different area.");
+              } else if (error.code === 3) {
+                setGpsError("Location request timed out. Please try again.");
+              } else {
+                setGpsError("Unknown location error occurred.");
+              }
+            }
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
         );
         
         gpsWatchIdRef.current = watchId;
       } else {
         console.error('Geolocation is not supported by this browser.');
+        setGpsError("Geolocation is not supported by this browser.");
         setIsGpsEnabled(false);
       }
     } else {
@@ -54,6 +92,7 @@ const Camera = ({ onCapture }: CameraProps) => {
         gpsWatchIdRef.current = null;
       }
       setGpsPosition(null);
+      setGpsError(null);
     }
     
     // Cleanup on component unmount
@@ -203,6 +242,13 @@ const Camera = ({ onCapture }: CameraProps) => {
           <div className="gps-indicator">
             <MdOutlineGpsFixed size={22} color="#D4AF37" />
             <span>{gpsPosition.coords.latitude.toFixed(4)}, {gpsPosition.coords.longitude.toFixed(4)}</span>
+          </div>
+        )}
+        
+        {/* GPS error message */}
+        {isGpsEnabled && gpsError && (
+          <div className="gps-error">
+            <span>{gpsError}</span>
           </div>
         )}
         

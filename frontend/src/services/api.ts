@@ -7,7 +7,7 @@ import {
   signMessage 
 } from './crypto';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 /**
  * Extended metadata with cryptographic attestation
@@ -17,6 +17,7 @@ interface CryptoMetadata extends ImageMetadata {
   publicKeyX: number[];
   publicKeyY: number[];
   attestationHash: number[];
+  gpsEnabled: boolean;
 }
 
 /**
@@ -29,7 +30,12 @@ export async function verifyImage(
 ): Promise<{
   success: boolean;
   attestationHash?: string;
+  metadata?: ImageMetadata;
+  metadataCid?: string;
   message: string;
+  ipfsSuccess?: boolean;
+  usedGateway?: string;
+  source?: string;
 }> {
   try {
     console.log('Preparing image for verification...');
@@ -87,7 +93,19 @@ export async function verifyImage(
 
     const result = await response.json();
     console.log('Verification result:', result);
-    return result;
+    
+    return {
+      success: result.verified,
+      attestationHash: result.source === 'local' ? result.txHash : result.attestationHash,
+      metadata: result.metadata,
+      metadataCid: result.metadataCid,
+      ipfsSuccess: result.ipfsSuccess,
+      usedGateway: result.usedGateway,
+      source: result.source,
+      message: result.verified 
+        ? 'Image verified successfully' 
+        : (result.message || 'Verification failed')
+    };
   } catch (error) {
     console.error('API error:', error);
     return {
@@ -108,14 +126,32 @@ async function generateCryptoMetadata(imageData: string, metadata: ImageMetadata
   const imageBytes = dataURLtoUint8Array(imageData);
   const imageHash = await sha256(imageBytes);
   
-  // Step 3: Format metadata values for attestation
-  const deviceId = parseInt(metadata.deviceId);
-  const timestamp = metadata.timestamp;
-  const latitude = metadata.latitude ? Math.floor(metadata.latitude * 1000000) : 0;
-  const longitude = metadata.longitude ? Math.floor(metadata.longitude * 1000000) : 0;
-  const gpsEnabled = Boolean(metadata.gpsEnabled);
+  // Step 3: Format metadata values for attestation with validation
+  // Ensure deviceId is a valid number, defaulting to 0 if invalid
+  const deviceId = isNaN(parseInt(metadata.deviceId)) ? 0 : parseInt(metadata.deviceId);
   
-  // Step 4: Generate attestation hash
+  // Ensure timestamp is a valid number
+  const timestamp = isNaN(metadata.timestamp) ? Math.floor(Date.now() / 1000) : metadata.timestamp;
+  
+  // Determine if GPS data is actually available and valid
+  const gpsEnabled = Boolean(
+    metadata.gpsEnabled && 
+    metadata.latitude !== undefined && 
+    metadata.longitude !== undefined && 
+    !isNaN(metadata.latitude) && 
+    !isNaN(metadata.longitude)
+  );
+  
+  // Only use GPS coordinates if GPS is enabled and data is valid
+  const latitude = gpsEnabled && metadata.latitude !== undefined && !isNaN(metadata.latitude)
+    ? Math.floor(metadata.latitude * 1000000) 
+    : 0;
+    
+  const longitude = gpsEnabled && metadata.longitude !== undefined && !isNaN(metadata.longitude)
+    ? Math.floor(metadata.longitude * 1000000) 
+    : 0;
+  
+  // Step 4: Generate attestation hash with adjusted GPS flag
   const attestationHash = await generateAttestationHash(
     imageHash,
     timestamp,
@@ -131,6 +167,8 @@ async function generateCryptoMetadata(imageData: string, metadata: ImageMetadata
   // Return the extended metadata with cryptographic components
   return {
     ...metadata,
+    // Make sure we're clear about GPS availability
+    gpsEnabled,
     // Convert Uint8Arrays to number arrays for JSON serialization
     signature: Array.from(signature),
     publicKeyX: Array.from(publicKeyX),

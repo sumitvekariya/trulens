@@ -1,0 +1,11 @@
+[profile.default]
+
+[profile.devnet_profile]
+url = "http://127.0.0.1:5050/rpc"
+account = "devnet_account_0"
+chain_id = "SN_SEPOLIA" # Adding chain_id for completeness 
+
+[profile.sepolia_photo_attestation]
+url = "https://free-rpc.nethermind.io/sepolia-juno/v0_8"
+account = "PhotoAttestation"
+chain_id = "SN_SEPOLIA" 

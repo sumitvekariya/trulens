@@ -98,14 +98,29 @@ export function u64ToBytes(value: number | bigint): Uint8Array {
   const buffer = new ArrayBuffer(8);
   const view = new DataView(buffer);
   
-  // Convert to BigInt if it's a number
-  const bigIntValue = typeof value === 'bigint' ? value : BigInt(value);
-  
-  // Write as little-endian
-  let tempValue = bigIntValue;
-  for (let i = 0; i < 8; i++) {
-    view.setUint8(i, Number(tempValue & BigInt(0xFF)));
-    tempValue >>= BigInt(8);
+  try {
+    // Validate input - handle null, undefined, NaN
+    if (value === null || value === undefined || 
+        (typeof value === 'number' && isNaN(value))) {
+      console.warn('Invalid value provided to u64ToBytes, using 0 as fallback', value);
+      value = 0;
+    }
+    
+    // Convert to BigInt if it's a number
+    const bigIntValue = typeof value === 'bigint' ? value : BigInt(Math.floor(Number(value)));
+    
+    // Write as little-endian
+    let tempValue = bigIntValue;
+    for (let i = 0; i < 8; i++) {
+      view.setUint8(i, Number(tempValue & BigInt(0xFF)));
+      tempValue >>= BigInt(8);
+    }
+  } catch (error) {
+    console.error('Error in u64ToBytes:', error);
+    // Fill with zeros on error
+    for (let i = 0; i < 8; i++) {
+      view.setUint8(i, 0);
+    }
   }
   
   return new Uint8Array(buffer);
@@ -118,19 +133,33 @@ export function i64ToBytes(value: number): Uint8Array {
   const buffer = new ArrayBuffer(8);
   const view = new DataView(buffer);
   
-  const isNegative = value < 0;
-  const absValue = Math.abs(value);
-  
-  // Write the absolute value
-  let tempValue = BigInt(absValue);
-  for (let i = 0; i < 8; i++) {
-    view.setUint8(i, Number(tempValue & BigInt(0xFF)));
-    tempValue >>= BigInt(8);
-  }
-  
-  // If negative, set the sign bit (most significant bit)
-  if (isNegative) {
-    view.setUint8(7, view.getUint8(7) | 0x80);
+  try {
+    // Validate input
+    if (value === null || value === undefined || isNaN(value)) {
+      console.warn('Invalid value provided to i64ToBytes, using 0 as fallback', value);
+      value = 0;
+    }
+    
+    const isNegative = value < 0;
+    const absValue = Math.abs(value);
+    
+    // Write the absolute value
+    let tempValue = BigInt(absValue);
+    for (let i = 0; i < 8; i++) {
+      view.setUint8(i, Number(tempValue & BigInt(0xFF)));
+      tempValue >>= BigInt(8);
+    }
+    
+    // If negative, set the sign bit (most significant bit)
+    if (isNegative) {
+      view.setUint8(7, view.getUint8(7) | 0x80);
+    }
+  } catch (error) {
+    console.error('Error in i64ToBytes:', error);
+    // Fill with zeros on error
+    for (let i = 0; i < 8; i++) {
+      view.setUint8(i, 0);
+    }
   }
   
   return new Uint8Array(buffer);

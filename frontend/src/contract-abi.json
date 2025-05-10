@@ -1,0 +1,91 @@
+[
+  {
+    "type": "constructor",
+    "name": "constructor",
+    "inputs": [
+      {
+        "name": "admin_address",
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "add_attestation",
+    "inputs": [
+      {
+        "name": "image_hash",
+        "type": "core::felt252"
+      },
+      {
+        "name": "timestamp",
+        "type": "core::felt252"
+      },
+      {
+        "name": "metadata_hash",
+        "type": "core::felt252"
+      }
+    ],
+    "outputs": [],
+    "state_mutability": "external"
+  },
+  {
+    "type": "enum",
+    "name": "core::bool",
+    "variants": [
+      {
+        "name": "False",
+        "type": "()"
+      },
+      {
+        "name": "True",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "verify_attestation",
+    "inputs": [
+      {
+        "name": "image_hash",
+        "type": "core::felt252"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "(core::bool, core::felt252, core::felt252, core::starknet::contract_address::ContractAddress)"
+      }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "get_total_attestations",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "core::integer::u64"
+      }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "revoke_attestation",
+    "inputs": [
+      {
+        "name": "image_hash",
+        "type": "core::felt252"
+      }
+    ],
+    "outputs": [],
+    "state_mutability": "external"
+  },
+  {
+    "type": "event",
+    "name": "trulens_attestation::PhotoAttestation::Event",
+    "kind": "enum",
+    "variants": []
+  }
+]
