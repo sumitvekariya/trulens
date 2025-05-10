@@ -21,27 +21,59 @@ TruLens is designed as a modular system with four major components:
 │  │ Wallet Connect  ├──┼──────────┼──▶│ Pinata Service │───┼───┐
 │  └─────────────────┘  │          │   └────────────────┘   │   │
 │  ┌─────────────────┐  │          │   ┌────────────────┐   │   │
-│  │   Attestation   │◀─┼──────────┼───┤ Noir Service   │   │   │
-│  └─────────────────┘  │          │   └────────────────┘   │   │
-└───────────────────────┘          └────────────────────────┘   │
-                                                                │
-┌───────────────────────┐          ┌────────────────────────┐  │
-│      Starknet         │          │     IPFS/Pinata        │  │
-│  ┌─────────────────┐  │          │   ┌────────────────┐   │  │
-│  │ PhotoAttestation│◀─┼──────────┤   │ Gateway        │◀──┘
-│  │     Contract    │  │          │   └────────────────┘   │
-│  └─────────────────┘  │          │   ┌────────────────┐   │
-│                       │          │   │ Storage        │   │
-└───────────────────────┘          └────────────────────────┘
-
-┌───────────────────────┐
-│       Circuits        │
-│  ┌─────────────────┐  │
-│  │ Noir ZK Circuit │  │
-│  └─────────────────┘  │
-│                       │
-└───────────────────────┘
+│  │   Attestation   │◀─┼──────────┼───┤ Noir Service   │───┼───┼────┐
+│  └─────────────────┘  │          │   └────────────────┘   │   │    │
+└───────────────────────┘          └────────────────────────┘   │    │
+                                                                │    │
+┌───────────────────────┐          ┌────────────────────────┐  │    │
+│      Starknet         │          │     IPFS/Pinata        │  │    │
+│  ┌─────────────────┐  │          │   ┌────────────────┐   │  │    │
+│  │ PhotoAttestation│◀─┼──────────┤   │ Gateway        │◀──┘    │
+│  │     Contract    │  │          │   └────────────────┘   │    │
+│  └─────────────────┘  │          │   ┌────────────────┐   │    │
+│                       │          │   │ Storage        │   │    │
+└───────────────────────┘          └────────────────────────┘    │
+                                                                 │
+┌───────────────────────────────────────────────────────┐        │
+│                      Circuits                         │        │
+│  ┌─────────────────┐            ┌─────────────────┐   │        │
+│  │ Noir ZK Circuit │◀───────────┤ Barretenberg    │◀──┘
+│  └─────────────────┘            │     Backend     │   │
+│                                 └─────────────────┘   │
+│  ┌──────────────────────────────────────────────┐    │
+│  │           Off-Chain Verification              │    │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌───────┐  │    │
+│  │  │ Time Bounds │  │  GPS Bounds │  │Image  │  │    │
+│  │  │ Verification│  │ Verification│  │Signing│  │    │
+│  │  └─────────────┘  └─────────────┘  └───────┘  │    │
+│  └──────────────────────────────────────────────┘    │
+└───────────────────────────────────────────────────────┘
 ```
+
+### Off-Chain Verification Flow
+
+Off-chain verification provides privacy-preserving validation using zero-knowledge proofs:
+
+1. **Input Collection**: When a user (verifier) wants to verify an image:
+   - The backend collects verification parameters (image hash, timestamp bounds, GPS boundaries)
+   - The original image metadata and signature from attestation are retrieved
+
+2. **Proof Generation**:
+   - The Noir Service interacts with the Barretenberg backend to generate a ZK proof
+   - The circuit validates that the image was captured within the specified time bounds
+   - If GPS was enabled, the circuit verifies location is within specified boundaries
+   - The circuit verifies the image signature against the public key
+
+3. **Verification**:
+   - The proof can be verified without revealing the exact time or location
+   - A successful verification confirms the image was taken within the specified parameters
+   - The verifier only learns that the conditions were met, not the exact metadata values
+
+4. **Advantages**:
+   - Privacy is preserved (exact location/time not revealed)
+   - Verification works with or without GPS data
+   - No on-chain transaction required for verification
+   - Flexible boundary conditions can be set by the verifier
 
 ## Component Details
 
